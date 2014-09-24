@@ -1,17 +1,28 @@
 import serial
 import time
 import random
+import sys
 
-dev = "/dev/tty.usbmodem12341"
-start_event = 'START'
-end_event = 'END'
+#dev = "/dev/tty.usbmodem12341"
+dev = "/dev/ttyACM0"
+start_event = 'GameStart'
+end_event = 'GameOver'
 beat_event = 'BEAT'
 addr = '1'
 
 ser = serial.Serial(dev)
 
-ser.write('%s%s:%s\n' % (start_event, addr, 2))
-while True:
-    ser.write('%s%s:%s\n' % (beat_event, addr, 2))
-    time.sleep(5)
-
+cmd = '%s%s:%s\n' % (start_event, addr, 2)
+print cmd
+ser.write(cmd)
+try:
+    while True:
+        cmd = '%s%s:%s\n' % (beat_event, addr, 2)
+        print cmd
+        ser.write(cmd)
+        time.sleep(5)
+except KeyboardInterrupt:
+    cmd = '%s%s:%s\n' % (end_event, addr, 2)
+    ser.write(cmd)
+    ser.write(cmd)
+    sys.exit()
