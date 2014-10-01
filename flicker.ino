@@ -150,8 +150,8 @@ void setup_effects()
     effects[i].offmin = 0;      // should not be used
     effects[i].offmax = 0;      // should not be used
   }
-  for (int i = 2; i < pinlen; i++) {
-    // rest of the effects are arcers
+  for (int i = 2; i < 5; i++) {
+    // next 3 effects are arcers
     effects[i].onbase = 100;
     effects[i].onmin = 3;
     effects[i].onmax = 1250;
@@ -162,6 +162,19 @@ void setup_effects()
     effects[i].offmin = 10;
     effects[i].offmax = 200;
   }
+  for (int i = 5; i < pinlen; i++) {
+    // final 2 effects are helmet
+    effects[i].onbase = 400;
+    effects[i].onmin = 200;
+    effects[i].onmax = 1250;
+    effects[i].lenbase = 1;
+    effects[i].lenmax = 10;
+    effects[i].gapbase = 10000;
+    effects[i].gapmin = 750;
+    effects[i].offmin = 10;
+    effects[i].offmax = 200;
+  }
+
 }
 
 // set up io, set up first effects, to be run once on start
@@ -178,9 +191,6 @@ void setup()
 void diag(int i)
 {
   Serial.println(i);
-  if (i <= 5) {
-      return;  
-  }
   // Serial.println("diag");
   Serial.println("onbase");
   Serial.println(effects[i].onbase);
