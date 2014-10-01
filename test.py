@@ -10,6 +10,8 @@ end_event = 'GameOver'
 beat_event = 'BEAT'
 addr = '1'
 
+secs = int(time.time())
+
 ser = serial.Serial(dev)
 
 cmd = '%s%s:%s\n' % (start_event, addr, 2)
@@ -17,6 +19,7 @@ print cmd
 ser.write(cmd)
 try:
     while True:
+        print int(time.time()) - secs
         cmd = '%s%s:%s\n' % (beat_event, addr, 2)
         print cmd
         ser.write(cmd)
