@@ -7,6 +7,7 @@
 const unsigned int whistle_pin = 12;
 const unsigned int puffer_pin = 13;
 const unsigned int foo_pin = 11;
+const unsigned int bar_pin = 10;
 unsigned int whistle_len = 500;
 
 // #define START_COMMAND 1
@@ -54,6 +55,22 @@ String getCommand()
   return NULL;
 }
 
+void writeLow()
+{
+  digitalWrite(whistle_pin, LOW);
+  digitalWrite(puffer_pin, LOW);
+  digitalWrite(foo_pin, LOW);
+  digitalWrite(bar_pin, LOW);
+}
+
+void writeHigh()
+{
+  digitalWrite(whistle_pin, HIGH);
+  digitalWrite(puffer_pin, HIGH);
+  digitalWrite(foo_pin, HIGH);
+  digitalWrite(bar_pin, HIGH);
+}
+
 // set up io, set up first effects, to be run once on start
 void setup()
 {
@@ -61,9 +78,7 @@ void setup()
   for (int i=9; i<=17; i++) {
     pinMode(i, OUTPUT);
     }   
-  digitalWrite(whistle_pin, LOW);
-  digitalWrite(puffer_pin, LOW);
-  digitalWrite(foo_pin, LOW);
+  writeLow();
 }
 
 // main loop, to be run continuously
@@ -72,13 +87,9 @@ void loop()
   int cmd = parseCommand(getCommand());
   if (cmd == DEATH_COMMAND) {
     Serial.println("death start");
-    digitalWrite(whistle_pin, HIGH);
-    digitalWrite(puffer_pin, HIGH);
-    digitalWrite(foo_pin, HIGH);
+    writeHigh();
     delay(whistle_len);
-    digitalWrite(whistle_pin, LOW);
-    digitalWrite(puffer_pin, LOW);
-    digitalWrite(foo_pin, LOW);
+    writeLow();
     Serial.println("death end");
   } else if (cmd == BEAT_COMMAND) {
     Serial.println("beat");
@@ -87,8 +98,7 @@ void loop()
   if (millis() - lastBeat > beatInterval) {
     // we didn't get a beat, did the game die?
     Serial.println("no beat");
-    digitalWrite(whistle_pin, LOW);
-    digitalWrite(puffer_pin, LOW);
-    digitalWrite(foo_pin, LOW);
+    writeLow();
   }
+  delay(5);
 }
